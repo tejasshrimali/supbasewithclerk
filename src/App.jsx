@@ -9,16 +9,19 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import LandingPage from "./components/LandingPage";
 import MoreDetailsForm from "./MoreDetailsForm";
 import Bot from "./components/chatbot";
+import AdminDashboard from "./components/admin/AdminDashboard";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        
+
         <Route
           path="/sign-in"
-          element={<SignIn afterSignInUrl="/dashboard" redirectUrl="/dashboard" />}
+          element={
+            <SignIn afterSignInUrl="/dashboard" redirectUrl="/dashboard" />
+          }
         />
         <Route
           path="/dashboard"
@@ -30,16 +33,18 @@ const App = () => {
         />
 
         <Route path="/more-info" element={<MoreDetailsForm />} />
-      <Route
+        <Route
           path="/chat"
           element={
             <ProtectedRoutes>
               <div className="min-h-screen bg-gray-100 p-4">
-               <Bot />
+                <Bot />
               </div>
             </ProtectedRoutes>
           }
         />
+
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>
   );

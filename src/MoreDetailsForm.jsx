@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { createClient } from "@supabase/supabase-js";
-import { Link, useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 // Initialize base Supabase client (without auth)
 const SUPABASE_URL = "https://xsprirnoerturuxxvrfn.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_hmRJCH2x-2KdJNJh78w9Gg_yeZ_aoCm";
@@ -11,6 +10,7 @@ export default function MoreDetailsForm({ onSubmit }) {
   const { user } = useUser();
   const { getToken } = useAuth();
   const navigate = useNavigate();
+
   const [userType, setUserType] = useState("User");
   const [degreeName, setDegreeName] = useState("");
   const [digilockerLink, setDigilockerLink] = useState("");
@@ -19,12 +19,10 @@ export default function MoreDetailsForm({ onSubmit }) {
   const [success, setSuccess] = useState(false);
 
   const handleDigilockerChange = (e) => setDigilockerLink(e.target.value);
-
   const handelRedirect = () => {
     localStorage.setItem("formShown", "true");
     navigate("/");
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -32,7 +30,6 @@ export default function MoreDetailsForm({ onSubmit }) {
     setLoading(true);
 
     if (userType === "Doctor") {
-      F;
       if (!degreeName.trim()) {
         setError("Please enter your degree name.");
         setLoading(false);
