@@ -1,19 +1,34 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ for navigation
+import { useNavigate } from "react-router-dom";
 import { generateResponse } from "../services/gemini.js";
+import { PlaceholdersAndVanishInput } from "../components/ui/placeholder-and-input.jsx";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 const Bot = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate(); // ✅ hook for go back
+  const navigate = useNavigate();
 
-  const handleSendMessage = async (e) => {
+  const placeholders = [
+   "I have a headache, what should I do?",
+  "What are the symptoms of cold and flu?",
+  "How can I boost my immunity?",
+  "Is my fever something to worry about?",
+  "Give me some daily health tips",
+  "What should I eat for better digestion?",
+  "How much water should I drink daily?",
+  "Why am I feeling tired all the time?",
+  "How to relieve stress quickly?",
+  "What are common signs of dehydration?"
+  ];
+
+  // ✅ USER SENDS MESSAGE
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
 
-    // Add user message to chat
     const userMessage = {
       text: inputMessage,
       sender: "user",
@@ -25,10 +40,8 @@ const Bot = () => {
     setIsLoading(true);
 
     try {
-      // Get response from Gemini
       const botResponse = await generateResponse(inputMessage);
 
-      // Add bot response to chat
       const botMessage = {
         text: botResponse,
         sender: "bot",
@@ -37,87 +50,88 @@ const Bot = () => {
 
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
-      console.error("Error getting response:", error);
-      // Add error message to chat
-      const errorMessage = {
-        text: "Sorry, I encountered an error. Please try again.",
-        sender: "bot",
-        timestamp: new Date().toISOString(),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      console.error("Error:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          text: "Something went wrong. Please try again.",
+          sender: "bot",
+          timestamp: new Date().toISOString(),
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col h-[600px] w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg">
-      {/* Header with Go Back button */}
-      <div className="flex items-center justify-between px-4 py-3 border-b bg-gray-50 rounded-t-lg">
-        <h2 className="text-lg font-semibold text-gray-800">Chat Assistant</h2>
-        <button
-          onClick={() => navigate("/")}
-          className="text-sm font-medium text-blue-600 hover:text-blue-800"
-        >
-          ← Go Back
-        </button>
-      </div>
+    <div className="flex flex-col h-[100vh] w-full max-w-[100vw] mx-auto bg-gradient-to-b from-[#e8f8f5] to-[#d6f0ff] shadow-lg ">
 
-      {/* Chat Messages */}
-      <div className="flex-1 p-4 overflow-y-auto">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`mb-4 ${
-              message.sender === "user" ? "text-right" : "text-left"
-            }`}
-          >
+      {/* HEADER */}
+<div className="flex items-center justify-between px-4 py-4  bg-gradient-to-r from-[#1b4872] to-[#27a5bf] shadow">
+
+  {/* LEFT: ICON + TITLE */}
+  <div className="flex items-center gap-2">
+    <IoChatboxEllipsesOutline className="text-white text-xl" />
+    <h2 className="text-lg font-semibold text-white tracking-wide">
+      Chat Assistant
+    </h2>
+  </div>
+
+  {/* RIGHT: BUTTON */}
+  <button
+    onClick={() => navigate("/")}
+    className="text-sm font-medium text-white hover:text-gray-200"
+  >
+    ← Go Back
+  </button>
+</div>
+
+
+      {/* MESSAGES */}
+      <div className="flex-1 p-4 px-75 overflow-y-auto space-y-4">
+        {messages.map((m, index) => (
+          <div key={index} className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}>
             <div
-              className={`inline-block p-3 rounded-lg ${
-                message.sender === "user"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-800"
+              className={`max-w-[75%] p-3 rounded-xl shadow-md ${
+                m.sender === "user"
+                  ? "bg-gradient-to-r from-[#27a5bf] to-[#1b8772] text-white"
+                  : "bg-white text-gray-700 border border-teal-100"
               }`}
             >
-              {message.text}
-            </div>
-            <div className="text-xs text-gray-500 mt-1">
-              {new Date(message.timestamp).toLocaleTimeString()}
+              {m.text}
+              <div className="text-xs opacity-70 mt-1 text-right">
+                {new Date(m.timestamp).toLocaleTimeString()}
+              </div>
             </div>
           </div>
         ))}
+
+        {/* TYPING */}
         {isLoading && (
-          <div className="text-left mb-4">
-            <div className="inline-block p-3 rounded-lg bg-gray-200">
+          <div className="flex justify-start">
+            <div className="bg-white border border-teal-100 p-3 rounded-xl shadow-md">
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" />
-                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-100" />
-                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-200" />
+                <div className="w-2 h-2 bg-teal-600 rounded-full animate-bounce" />
+                <div className="w-2 h-2 bg-teal-600 rounded-full animate-bounce delay-100" />
+                <div className="w-2 h-2 bg-teal-600 rounded-full animate-bounce delay-200" />
               </div>
             </div>
           </div>
         )}
       </div>
 
-      {/* Chat Input */}
-      <form onSubmit={handleSendMessage} className="p-4 border-t">
-        <div className="flex space-x-4">
-          <input
-            type="text"
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            placeholder="Type your message..."
-            className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            type="submit"
-            disabled={isLoading || !inputMessage.trim()}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Send
-          </button>
-        </div>
-      </form>
+      {/* ✅ Aceternity Input Replacing Old Input */}
+      <div className="p-4 bg-gray-800 border-t  shadow-inner">
+  <PlaceholdersAndVanishInput
+    placeholders={placeholders}
+    value={inputMessage}
+    onChange={(e) => setInputMessage(e.target.value)}
+    onSubmit={handleSubmit}
+    className="w-full"
+  />
+</div>
+
     </div>
   );
 };

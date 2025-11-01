@@ -62,7 +62,7 @@ const NavBar = () => {
           <SignedIn>
             <Link
               to="/chat"
-              className="flex items-center gap-1 text-opacity-60 text-white hover:text-opacity-100 transition duration-300"
+              className="flex items-center gap-1 text-opacity-60  text-white hover:text-opacity-100 transition duration-300"
             >
               <MessageSquare className="w-4 h-4" />
               <span>Chat Bot</span>

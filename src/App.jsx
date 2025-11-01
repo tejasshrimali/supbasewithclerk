@@ -34,7 +34,7 @@ const App = () => {
           path="/chat"
           element={
             <ProtectedRoutes>
-              <div className="min-h-screen bg-gray-100 p-4">
+              <div className="min-h-screen bg-gray-100">
                <Bot />
               </div>
             </ProtectedRoutes>
