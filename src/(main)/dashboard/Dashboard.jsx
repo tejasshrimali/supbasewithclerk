@@ -6,6 +6,7 @@ import {
   IconBrandTabler,
   IconVideo,
   IconMessageChatbot,
+  IconCalendarTime,
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import { cn } from "../../lib/utils";
@@ -18,10 +19,10 @@ export function Dashboard() {
 
   const links = [
     {
-      label: "Dashboard",
+      label: "Appointment",
       href: "#",
       icon: (
-        <IconBrandTabler className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconCalendarTime className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
