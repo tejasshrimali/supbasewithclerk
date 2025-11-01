@@ -76,7 +76,10 @@ const NavBar = () => {
 
             {/* When user is signed out */}
             <SignedOut>
-              <SignInButton>
+              <SignInButton
+                signInForceRedirectUrl="/dashboard"
+                signInFallbackRedirectUrl="/dashboard"
+              >
                 <Button variant="secondary">Sign In</Button>
               </SignInButton>
             </SignedOut>

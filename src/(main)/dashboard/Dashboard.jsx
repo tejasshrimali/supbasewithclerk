@@ -9,7 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import { cn } from "../../lib/utils";
-import { useUser, SignedIn } from "@clerk/clerk-react";
+import { useUser, SignedIn, UserButton } from "@clerk/clerk-react";
 import { logo } from "../../assets/images/export";
 
 export function Dashboard() {
@@ -68,21 +68,7 @@ export function Dashboard() {
           {/* ✅ User info section */}
           <div>
             <SignedIn>
-              <SidebarLink
-                link={{
-                  label: user?.fullName || user?.firstName || "User",
-                  href: "#",
-                  icon: (
-                    <img
-                      src={user?.imageUrl}
-                      className="h-7 w-7 shrink-0 rounded-full"
-                      width={50}
-                      height={50}
-                      alt="User Avatar"
-                    />
-                  ),
-                }}
-              />
+              <UserButton />
             </SignedIn>
           </div>
         </SidebarBody>

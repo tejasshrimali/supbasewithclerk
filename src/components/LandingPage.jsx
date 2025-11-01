@@ -21,13 +21,9 @@ export default function LandingPage() {
   useEffect(() => {
     if (isSignedIn && user) {
       syncUserToSupabase(user);
-      
-      if (
-        !localStorage.getItem("formShown") ||
-        localStorage.getItem("formShown") === "false"
-      ) {
-        navigate("/more-info");
-      }
+      navigate("/dashboard")
+    } else { 
+      navigate("/")
     }
   }, [isSignedIn, user]);
 

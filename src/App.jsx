@@ -20,7 +20,10 @@ const App = () => {
         <Route
           path="/sign-in"
           element={
-            <SignIn afterSignInUrl="/dashboard" redirectUrl="/dashboard" />
+            <SignIn
+              signInForceRedirectUrl="/dashboard"
+              signInFallbackRedirectUrl="/dashboard"
+            />
           }
         />
         <Route
@@ -38,7 +41,7 @@ const App = () => {
           element={
             <ProtectedRoutes>
               <div className="min-h-screen bg-gray-100">
-               <Bot />
+                <Bot />
               </div>
             </ProtectedRoutes>
           }
