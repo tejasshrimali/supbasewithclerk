@@ -9,27 +9,18 @@ import CallToAction from "./CallToAction";
 import Footer from "./Footer";
 import { syncUserToSupabase } from "../syncUserToSupbase";
 import React, { useEffect } from "react";
-import { SignIn, useUser } from "@clerk/clerk-react";
-import MoreDetailsForm from "../MoreDetailsForm";
-import { useNavigate } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 
 export default function LandingPage() {
-  const { user, isSignedIn } = useUser();
-  const navigate = useNavigate();
+  const { user, isSignedIn, isLoaded } = useUser();
 
-  console.log("User info:", user);
   useEffect(() => {
+    if (!isLoaded) return;
     if (isSignedIn && user) {
+      // ✅ This is fine — syncing does not redirect
       syncUserToSupabase(user);
-      
-      if (
-        !localStorage.getItem("formShown") ||
-        localStorage.getItem("formShown") === "false"
-      ) {
-        navigate("/more-info");
-      }
     }
-  }, [isSignedIn, user]);
+  }, [isSignedIn, user, isLoaded]);
 
   return (
     <div>
