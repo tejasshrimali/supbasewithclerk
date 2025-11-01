@@ -4,7 +4,7 @@ import AuthLayout from "./(auth)/AuthLayout";
 import SignInPage from "./(auth)/SignIn";
 
 import SignUpPage from "./(auth)/SignUp";
-import Dashboard from "./(main)/dashboard/Dashboard";
+import { Dashboard } from "./(main)/dashboard/Dashboard";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import LandingPage from "./components/LandingPage";
 import MoreDetailsForm from "./MoreDetailsForm";
@@ -37,8 +37,8 @@ const App = () => {
           path="/chat"
           element={
             <ProtectedRoutes>
-              <div className="min-h-screen bg-gray-100 p-4">
-                <Bot />
+              <div className="min-h-screen bg-gray-100">
+               <Bot />
               </div>
             </ProtectedRoutes>
           }
