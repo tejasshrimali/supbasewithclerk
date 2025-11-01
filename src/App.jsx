@@ -4,7 +4,7 @@ import AuthLayout from "./(auth)/AuthLayout";
 import SignInPage from "./(auth)/SignIn";
 
 import SignUpPage from "./(auth)/SignUp";
-import Dashboard from "./(main)/dashboard/Dashboard";
+import { Dashboard } from "./(main)/dashboard/Dashboard";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import LandingPage from "./components/LandingPage";
 import MoreDetailsForm from "./MoreDetailsForm";
