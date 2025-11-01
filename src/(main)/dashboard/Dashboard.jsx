@@ -1,15 +1,52 @@
+// MoreDetailsForm.jsx
 import { useUser } from "@clerk/clerk-react";
-import DoctorDashboard from "./DoctorDashboard";
-import PatientDashboard from "./PatientDashboard";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-const Dashboard = () => {
+const MoreDetailsForm = () => {
   const { user } = useUser();
-  const role = user?.publicMetadata?.role;
+  const navigate = useNavigate();
 
-  if (role === "doctor") return <DoctorDashboard />;
-  if (role === "patient") return <PatientDashboard />;
+  const [loading, setLoading] = useState(false);
 
-  return <div>Please select your role first.</div>;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    // ✅ Update Clerk metadata
+    await user.update({
+      publicMetadata: {
+        completedProfile: true,
+      },
+    });
+
+    setLoading(false);
+
+    // ✅ Redirect to dashboard after completing profile
+    navigate("/dashboard");
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="p-6 max-w-md mx-auto">
+      <h2 className="text-2xl font-bold mb-4">Complete Your Profile</h2>
+
+      {/* Add your fields */}
+      <input
+        type="text"
+        placeholder="Your Name"
+        className="border p-2 w-full mb-3"
+        required
+      />
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="bg-blue-600 text-white px-4 py-2 rounded"
+      >
+        {loading ? "Saving..." : "Submit"}
+      </button>
+    </form>
+  );
 };
 
-export default Dashboard;
+export default MoreDetailsForm;
