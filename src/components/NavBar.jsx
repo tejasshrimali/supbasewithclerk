@@ -1,3 +1,5 @@
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   SignedIn,
   SignedOut,
@@ -5,19 +7,14 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 import LogoImage from "../assets/images/logosaas.png";
-import { Menu } from "lucide-react";
+import { Menu, MessageSquare } from "lucide-react";
 import { Button } from "./ui/Button";
 
-import { Link } from "react-router-dom";
 const NavBar = () => {
   return (
     <div className="px-4 bg-black">
       <div className="py-4 flex items-center justify-between">
-        {/* LOGO */}
-        <div
-          className="relative flex items-center justify-center cursor-pointer"
-          onClick={() => navigate("/")}
-        >
+        <div className="relative flex items-center justify-center">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(252,214,255,0.7),rgba(41,216,255,0.7),rgba(255,253,128,0.7),rgba(248,154,191,0.7),rgba(252,214,255,0.7))] blur-2xl opacity-70 animate-gradient-glow rounded-full"></div>
 
           <img
@@ -27,64 +24,61 @@ const NavBar = () => {
           />
         </div>
 
-        {/* MOBILE MENU */}
         <div className="border border-white border-opacity-30 h-10 w-10 inline-flex justify-center items-center rounded-lg sm:hidden">
           <Menu className="text-white" />
         </div>
 
-        {/* NAV LINKS */}
-        <nav className="sm:flex sm:gap-6 sm:items-center hidden">
-          <Link
-            to="#"
+        <nav className="sm:flex sm:gap-6 sm:items-center hidden ">
+          <a
+            href="#"
             className="text-opacity-60 text-white hover:text-opacity-100 transition duration-300"
           >
             About
-          </Link>
-          <Link
-            to="#"
+          </a>
+          <a
+            href="#"
             className="text-opacity-60 text-white hover:text-opacity-100 transition duration-300"
           >
             Features
-          </Link>
-          <Link
-            to="#"
+          </a>
+          <a
+            href="#"
             className="text-opacity-60 text-white hover:text-opacity-100 transition duration-300"
           >
             Updates
-          </Link>
-          <Link
-            to="#"
+          </a>
+          <a
+            href="#"
             className="text-opacity-60 text-white hover:text-opacity-100 transition duration-300"
           >
             Help
-          </Link>
-          <Link
-            to="#"
+          </a>
+          <a
+            href="#"
             className="text-opacity-60 text-white hover:text-opacity-100 transition duration-300"
           >
             Customers
-          </Link>
-
-          {/* AUTH SECTION */}
+          </a>
+          <SignedIn>
+            <Link
+              to="/chat"
+              className="flex items-center gap-1 text-opacity-60 text-white hover:text-opacity-100 transition duration-300"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>Chat Bot</span>
+            </Link>
+          </SignedIn>
           <div className="flex items-center gap-3">
-            {/* If user is logged in */}
+            {/* When user is signed in */}
             <SignedIn>
-             
-              <UserButton afterSignOutUrl="/" />
+              <UserButton />
             </SignedIn>
 
-            {/* If user is logged out */}
+            {/* When user is signed out */}
             <SignedOut>
-              <Button variant="secondary" onClick={() => navigate("/sign-in")}>
-                Sign In
-              </Button>
-              <Button
-                variant="secondary"
-                className="bg-white text-black hover:bg-gray-200"
-                onClick={() => navigate("/sign-up")}
-              >
-                Sign Up
-              </Button>
+              <SignInButton>
+                <Button variant="secondary">Sign In</Button>
+              </SignInButton>
             </SignedOut>
           </div>
         </nav>
